@@ -15,4 +15,5 @@
     <string name="password">Password</string>
     <string name="signin">SignIN</string>
     <string name="googleSignInId">845986281684-2q3dh49jutt9g4fn8f7n8qqs07u5k9rp.apps.googleusercontent.com</string>
+    <string name="please_wait">Please wait...</string>
 </resources>
