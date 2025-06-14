@@ -1,5 +1,5 @@
-SplitWise - Your Free Expense Tracker & Bill Splitter
-SplitZero is an open-source, completely free Android app alternative to popular expense-splitting applications like Splitwise. It allows friends, roommates, and travel buddies to easily track shared expenses, split bills, and settle debts without any hidden fees or premium features.
+# SplitWise - Your Free Expense Tracker & Bill Splitter
+## SplitZero is an open-source, completely free Android app alternative to popular expense-splitting applications like Splitwise. It allows friends, roommates, and travel buddies to easily track shared expenses, split bills, and settle debts without any hidden fees or premium features.
 
 🔗 Project Link
 You can find the source code and contribute to SplitZero on GitHub:
