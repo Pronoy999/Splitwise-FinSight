@@ -5,12 +5,12 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SplashScreen">
+    tools:context=".activities.SplashScreen">
 
-    <TextView
-        android:id="@+id/text1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/black"
-        android:text="@string/hello_world" />
+   <ImageView
+       android:layout_width="match_parent"
+       app:layout_constraintTop_toTopOf="@id/main"
+       app:layout_constraintBottom_toBottomOf="@id/main"
+       android:layout_height="match_parent"
+       android:src="@drawable/splash_screen"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
