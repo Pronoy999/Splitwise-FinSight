@@ -19,20 +19,24 @@ public class SplashScreen extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.splash_screen);
-        new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            SharedPreferences sharedPreferences = getSharedPreferences(Constants.FINSIGHT_SHARED_PREF, MODE_PRIVATE);
-            boolean isLoggedIn = sharedPreferences.getBoolean(Constants.LOGIN_STATUS_KEY, false);
-            Intent intent = null;
-            if (isLoggedIn) {
-                // intent = new Intent(SplashScreen.this, Dashboard.class);
-                Log.v(TAG, "No Dashboard");
-            } else {
-                intent = new Intent(SplashScreen.this, LoginActivity.class);
-            }
-            startActivity(intent);
-            finish();
-        }, SPLASH_TIME_OUT);
+        try {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.splash_screen);
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                SharedPreferences sharedPreferences = getSharedPreferences(Constants.FINSIGHT_SHARED_PREF, MODE_PRIVATE);
+                boolean isLoggedIn = sharedPreferences.getBoolean(Constants.LOGIN_STATUS_KEY, false);
+                Intent intent = null;
+                if (isLoggedIn) {
+                    // intent = new Intent(SplashScreen.this, Dashboard.class);
+                    Log.v(TAG, "No Dashboard");
+                } else {
+                    intent = new Intent(SplashScreen.this, LoginActivity.class);
+                }
+                startActivity(intent);
+                finish();
+            }, SPLASH_TIME_OUT);
+        } catch (Exception e) {
+            Log.v("ERROR", e.getMessage());
+        }
     }
 }

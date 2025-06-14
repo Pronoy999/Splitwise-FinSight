@@ -7,12 +7,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -23,6 +19,7 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.pro.finsight.splitwise.R;
 import com.pro.finsight.splitwise.utils.Constants;
+import com.pro.finsight.splitwise.utils.Messages;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText emailId;
@@ -34,23 +31,21 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        init();
-        setContentView(R.layout.activity_login);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.googleSignInId))
-                .requestEmail()
-                .requestProfile()
-                .build();
+        try {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_login);
+            init();
+            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestIdToken(getString(R.string.googleSignInId))
+                    .requestEmail()
+                    .build();
 
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-        googleSignInButton.setOnClickListener(v -> signInWithGoogle());
+            mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+            googleSignInButton.setOnClickListener(view -> signInWithGoogle());
+        } catch (Exception e) {
+            Log.e(TAG, "Exception :", e.getCause());
+        }
     }
 
     /**
@@ -71,20 +66,20 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == Constants.GOOGLE_SIGNIN_CODE) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+
             try {
-                GoogleSignInAccount account = task.getResult(ApiException.class);
-
+                GoogleSignInAccount account = task.getResult();
                 if (account != null) {
-                    String idToken = account.getIdToken();
-                    Log.d(TAG, "ID Token: " + idToken);
-                    //sendTokenToBackend(idToken);
+                    String token = account.getIdToken();
+                } else {
+                    Messages.logErrorMessage(TAG, " Google sign-in failed: Account is null");
                 }
-
-            } catch (ApiException e) {
-                Log.e(TAG, "Google sign in failed", e);
-                Toast.makeText(this, "Sign in failed", Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                Messages.logErrorMessage(TAG, " Google sign-in failed: " + e.getMessage());
+                Messages.toastShortMessage(this, "Google sign-in failed");
             }
         }
     }
